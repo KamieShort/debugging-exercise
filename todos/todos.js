@@ -1,10 +1,10 @@
-import { 
-    checkAuth, 
-    createTodo, 
+import {
+    checkAuth,
+    createTodo,
     completeTodo,
     getTodos,
     logout,
-    deleteAllTodos, 
+    deleteAllTodos,
 } from '../fetch-utils.js';
 import { renderTodo } from '../render-utils.js';
 
@@ -15,7 +15,8 @@ const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
 
-todoForm.addEventListener('submit', async(e) => {
+todoForm.addEventListener('submit', async (e) => {
+    console.log('hi');
     e.preventDefault();
 
     const formData = new FormData(todoForm);
@@ -25,37 +26,37 @@ todoForm.addEventListener('submit', async(e) => {
     await createTodo(todo);
 
     todoForm.reset();
-    displayTodos();
+    await displayTodos();
 });
 
 async function displayTodos() {
     const todos = await getTodos();
-    
+
     todosEl.textContent = '';
 
     for (let todo of todos) {
         const todoEl = renderTodo(todo);
 
-        todoEl.addEventListener('click', async() => {
+        todoEl.addEventListener('click', async () => {
             await completeTodo(todo.id);
 
-            displayTodos();
+            await displayTodos();
         });
 
         todosEl.append(todoEl);
     }
 }
+// displayTodos();
 
-window.addEventListener('load', async() => {
+window.addEventListener('load', async () => {
     displayTodos();
 });
 
-logoutButton.addEventListener('click', () => {
+logoutButton.addEventListener('click', async () => {
     logout();
 });
 
-
-deleteButton.addEventListener('click', async() => {
+deleteButton.addEventListener('click', async () => {
     await deleteAllTodos();
 
     displayTodos();
