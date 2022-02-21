@@ -5,7 +5,7 @@ const SUPABASE_KEY =
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function createTodo(todo) {
-    const response = client
+    const response = await client
         .from('todos')
         .insert({
             todo: todo,
@@ -27,7 +27,7 @@ export async function getTodos() {
 }
 
 export async function completeTodo(id) {
-    const response = await client.from('todos').update({ complete: false }).match({ id: id });
+    const response = await client.from('todos').update({ complete: true }).match({ id: id });
 
     return checkError(response);
 }

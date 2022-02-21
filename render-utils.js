@@ -8,4 +8,5 @@ export function renderTodo(todo) {
     p.textContent = todo.todo;
 
     div.append(p);
+    return div;
 }
